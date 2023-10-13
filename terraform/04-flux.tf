@@ -3,10 +3,10 @@ data "flux_install" "main" {
 }
 
 data "flux_sync" "main" {
-  url         = "https://github.com/<GITHUB_USERNAME>/<GITHUB_REPO_NAME>"
+  url         = "https://github.com/peacecwz/homemade-infrastructure"
   target_path = "flux-system"
   branch      = "main"
-  path        = "./clusters/my-cluster"
+  path        = "./infrastructure"
 }
 
 resource "kustomization_resource" "install" {
