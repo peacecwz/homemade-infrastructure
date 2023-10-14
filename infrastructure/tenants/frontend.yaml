@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "../frontend"
+  path: "./frontend"
   prune: true
   sourceRef:
     kind: GitRepository
