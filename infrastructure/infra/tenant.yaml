@@ -2,11 +2,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: frontend
+  name: infra
   namespace: flux-system
 spec:
   interval: 5m
-  path: "../frontend"
+  path: "./"
   prune: true
   sourceRef:
     kind: GitRepository
