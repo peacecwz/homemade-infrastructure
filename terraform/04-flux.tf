@@ -1,20 +1,17 @@
-data "flux_install" "main" {
-  target_path = "flux-system"
+resource "tls_private_key" "flux" {
+  algorithm   = "ECDSA"
+  ecdsa_curve = "P256"
 }
 
-data "flux_sync" "main" {
-  url         = "https://github.com/peacecwz/homemade-infrastructure"
-  target_path = "flux-system"
-  branch      = "main"
-  path        = "./infrastructure"
+resource "github_repository_deploy_key" "this" {
+  title      = "Flux"
+  repository = var.github_repository
+  key        = tls_private_key.flux.public_key_openssh
+  read_only  = "false"
 }
 
-resource "kustomization_resource" "install" {
-  for_each = data.flux_install.main
-  manifest = each.value
-}
-
-resource "kustomization_resource" "sync" {
-  for_each = data.flux_sync.main
-  manifest = each.value
+resource "flux_bootstrap_git" "this" {
+  count      = length(var.clusters)
+  path       = "infrastructure"
+  depends_on = [kind_cluster.this, github_repository_deploy_key.this]
 }

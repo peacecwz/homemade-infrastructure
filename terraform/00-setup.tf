@@ -1,9 +1,21 @@
 terraform {
+  required_version = ">=1.1.5"
+
   required_providers {
+    kustomization = {
+      source  = "kbst/kustomization"
+      version = "0.9.0"
+    }
     flux = {
-      source  = "fluxcd/flux"
-      version = "~> 0.0.4" # Use the latest available version
+      source = "fluxcd/flux"
+    }
+    kind = {
+      source  = "tehcyx/kind"
+      version = ">=0.0.16"
+    }
+    github = {
+      source  = "integrations/github"
+      version = ">=5.18.0"
     }
   }
-  required_version = ">= 0.13"
 }

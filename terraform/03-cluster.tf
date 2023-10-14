@@ -4,42 +4,30 @@ resource "random_pet" "cluster_name_suffix" {
   separator = "-"
 }
 
-resource "null_resource" "kind_create_cluster" {
+resource "kind_cluster" "this" {
   count = length(var.clusters)
 
-  provisioner "local-exec" {
-    command = <<EOT
-      cat <<EOF | kind create cluster --name=${var.clusters[count.index].env}-${var.clusters[count.index].name}-${random_pet.cluster_name_suffix[count.index].id} --config=-
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-nodes:
-- role: control-plane
-$(for i in $(seq 2 ${var.clusters[count.index].control_plane_count}); do echo "- role: control-plane"; done)
-$(for i in $(seq 1 ${var.clusters[count.index].worker_count}); do echo "- role: worker"; done)
-EOF
-    EOT
+  name = "${var.clusters[count.index].env}-${var.clusters[count.index].name}-${random_pet.cluster_name_suffix[count.index].id}"
+  kind_config {
+    kind        = "Cluster"
+    api_version = "kind.x-k8s.io/v1alpha4"
+    node {
+      role = "control-plane"
+    }
+    dynamic "node" {
+      for_each = range(var.clusters[count.index].control_plane_count)
+      content {
+        role = "control-plane"
+      }
+    }
+    dynamic "node" {
+      for_each = range(var.clusters[count.index].worker_count)
+      content {
+        role = "worker"
+      }
+    }
   }
 
-  triggers = {
-    always_run   = "${timestamp()}"
-    cluster_name = "${var.clusters[count.index].env}-${var.clusters[count.index].name}-${random_pet.cluster_name_suffix[count.index].id}"
-  }
-
-  depends_on = [random_pet.cluster_name_suffix]
-}
-
-resource "null_resource" "kind_delete_cluster" {
-  count = length(var.clusters)
-
-  provisioner "local-exec" {
-    when    = destroy
-    command = "kind delete cluster --name=${self.triggers.cluster_name}"
-  }
-
-  triggers = {
-    always_run   = "${timestamp()}"
-    cluster_name = "${var.clusters[count.index].env}-${var.clusters[count.index].name}-${random_pet.cluster_name_suffix[count.index].id}"
-  }
-
-  depends_on = [null_resource.kind_create_cluster]
+  wait_for_ready = true
+  depends_on     = [random_pet.cluster_name_suffix]
 }
