@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: base
-      version: "1.0.0" # Specify the desired version
+      version: "1.19.3" # Specify the desired version
       sourceRef:
         kind: HelmRepository
         name: istio
@@ -28,7 +28,7 @@ spec:
   chart:
     spec:
       chart: gateway
-      version: "1.0.0" # Specify the desired version
+      version: "1.19.3" # Specify the desired version
       sourceRef:
         kind: HelmRepository
         name: istio
