@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: grafana
-      version: "6.17.4"
+      version: "6.60.6"
       sourceRef:
         kind: HelmRepository
         name: grafana
@@ -30,4 +30,6 @@ spec:
         - ReadWriteOnce
       size: 10Gi
     podSecurityPolicy:
-      enabled: true
+      enabled: false
+    testFramework:
+      enabled: false
