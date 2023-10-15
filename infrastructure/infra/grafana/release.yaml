@@ -18,7 +18,7 @@ spec:
     adminUser: admin
     adminPassword: MyP@ssw0rd
     service:
-      type: ClusterIP
+      type: LoadBalancer
     ingress:
       enabled: true
       hosts:
