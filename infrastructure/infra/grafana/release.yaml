@@ -25,7 +25,7 @@ spec:
         - grafana.dev.barisceviz.com
     persistence:
       enabled: true
-      storageClassName: "grafana-storage"
+      storageClassName: "standard"
       accessModes:
         - ReadWriteOnce
       size: 10Gi
