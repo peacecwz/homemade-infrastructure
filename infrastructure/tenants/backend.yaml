@@ -5,7 +5,7 @@ metadata:
   name: backend
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 10s
   path: "./"
   prune: true
   sourceRef:
