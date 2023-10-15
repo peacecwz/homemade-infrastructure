@@ -17,26 +17,27 @@ spec:
     remediation:
       retries: 3
   values:
----
-apiVersion: metallb.io/v1beta1
-kind: IPAddressPool
-metadata:
-  name: local-network
-  namespace: metallb
-spec:
-  addresses:
-    - 192.168.178.162-192.168.178.165
----
-apiVersion: metallb.io/v1beta1
-kind: L2Advertisement
-metadata:
-  name: l2-local-config
-  namespace: metallb
-spec:
-  ipAddressPools:
-    - local-network
-  nodeSelectors:
-    - matchLabels:
-        kubernetes.io/hostname: local-apps-stag-worker
-    - matchLabels:
-        kubernetes.io/hostname: local-apps-stag-worker2
+# ---
+# apiVersion: metallb.io/v1beta1
+# kind: IPAddressPool
+# metadata:
+#   name: local-network
+#   namespace: metallb
+# spec:
+#   addresses:
+#     - 192.168.178.162-192.168.178.165
+# ---
+# apiVersion: metallb.io/v1beta1
+# kind: L2Advertisement
+# metadata:
+#   name: l2-local-config
+#   namespace: metallb
+# spec:
+#   ipAddressPools:
+#     - local-network
+#   nodeSelectors:
+#     - matchLabels:
+#         kubernetes.io/hostname: local-apps-stag-worker
+#     - matchLabels:
+#         kubernetes.io/hostname: local-apps-stag-worker2
+#
