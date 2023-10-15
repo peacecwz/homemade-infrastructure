@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./infras"
+  path: "infra"
   prune: true
   sourceRef:
     kind: GitRepository
