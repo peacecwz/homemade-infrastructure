@@ -30,4 +30,4 @@ spec:
         - ReadWriteOnce
       size: 10Gi
     podSecurityPolicy:
-      enabled: false
+      enabled: true
