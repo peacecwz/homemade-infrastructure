@@ -18,17 +18,17 @@ resource "kind_cluster" "this" {
     # }
     node {
       role = "control-plane"
+      extra_port_mappings {
+        container_port = 80
+        host_port      = 80
+        listen_address = "127.0.0.1"
+        protocol       = "TCP"
+      }
     }
     dynamic "node" {
       for_each = var.clusters[count.index].control_plane_count > 1 ? range(var.clusters[count.index].control_plane_count) : []
       content {
         role = "control-plane"
-        # extra_port_mappings {
-        #   container_port = 80
-        #   host_port      = 80
-        #   listen_address = "127.0.0.1"
-        #   protocol       = "TCP"
-        # }
       }
     }
     dynamic "node" {
