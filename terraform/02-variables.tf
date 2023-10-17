@@ -5,6 +5,13 @@ variable "clusters" {
     name                = string
     worker_count        = number
     control_plane_count = number
+    kubeadm_config      = string
+    extra_ports = list(object({
+      container_port = number
+      host_port      = number
+      listen_address = string
+      protocol       = string
+    }))
   }))
   default = []
 }

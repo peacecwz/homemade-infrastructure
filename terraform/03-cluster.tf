@@ -18,11 +18,17 @@ resource "kind_cluster" "this" {
     # }
     node {
       role = "control-plane"
-      extra_port_mappings {
-        container_port = 80
-        host_port      = 80
-        listen_address = "127.0.0.1"
-        protocol       = "TCP"
+      kubeadm_config_patches = [
+        "kind: InitConfiguration\nnodeRegistration:\n  kubeletExtraArgs:\n    node-labels: \"ingress-ready=true\"\n"
+      ]
+      dynamic "extra_port_mappings" {
+        for_each = var.clusters[count.index].extra_ports
+        content {
+          container_port = extra_port_mappings.value.container_port
+          host_port      = extra_port_mappings.value.host_port
+          listen_address = extra_port_mappings.value.listen_address
+          protocol       = extra_port_mappings.value.protocol
+        }
       }
     }
     dynamic "node" {
