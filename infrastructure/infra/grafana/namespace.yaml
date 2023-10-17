@@ -4,4 +4,4 @@ kind: Namespace
 metadata:
   name: grafana
 labels:
-  sidecar.istio.io/inject: true
+  istio-injection: enabled
